@@ -239,13 +239,13 @@ struct board{
             int x = cx + cur.offsx[i];
             int y = vy + cur.offsy[i];
             if(x >= 8 || y >= 8 || x < 0 || y < 0) continue;
-            set_pixel(x, y, ORANGE);
+            set_pixel(x, y, GREEN);
         }
         for(int i = 0; i < 4; i++){
             int x = cx + cur.offsx[i];
             int y = cy + cur.offsy[i];
             if(x >= 8 || y >= 8 || x < 0 || y < 0) continue;
-            set_pixel(x, y, GREEN);
+            set_pixel(x, y, ORANGE);
         }
     }
 
