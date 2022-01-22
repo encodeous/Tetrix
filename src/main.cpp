@@ -189,7 +189,7 @@ struct button{
             if(up_func != nullptr) up_func();
         } else {
             if(down_time != -1){
-                if(millis() - down_time > 250){
+                if(millis() - down_time > 300){
                     if(millis() - last_up < 70) return;
                     last_up = millis();
                     // pushed
@@ -221,18 +221,13 @@ button btn_left{LEFT_PIN}, btn_right{RIGHT_PIN}, btn_rotate{ROTATE_PIN}, btn_dow
 
 struct board{
     bool filled[8][8];
-    int cx = 2, cy = 8;
+    int cx = 2, cy = 10;
     int vy = 0;
     int cleared = 0;
     piece cur;
 
     void render_board(){
-        for(int i = 0; i < 4; i++){
-            int x = cx + cur.offsx[i];
-            int y = cy + cur.offsy[i];
-            if(x >= 8 || y >= 8 || x < 0 || y < 0) continue;
-            set_pixel(x, y, GREEN);
-        }
+        trace();
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 if(filled[i][j]){
@@ -240,12 +235,17 @@ struct board{
                 }
             }
         }
-        trace();
         for(int i = 0; i < 4; i++){
             int x = cx + cur.offsx[i];
             int y = vy + cur.offsy[i];
             if(x >= 8 || y >= 8 || x < 0 || y < 0) continue;
             set_pixel(x, y, ORANGE);
+        }
+        for(int i = 0; i < 4; i++){
+            int x = cx + cur.offsx[i];
+            int y = cy + cur.offsy[i];
+            if(x >= 8 || y >= 8 || x < 0 || y < 0) continue;
+            set_pixel(x, y, GREEN);
         }
     }
 
@@ -281,7 +281,7 @@ struct board{
     void tick(){
         int lms = 10000 / (cleared + 10);
         if(accelerated){
-            lms *= 0.1;
+            lms *= 0.18;
         }
         if(millis() - last_tick > lms){
             last_tick = millis();
@@ -415,7 +415,7 @@ struct board{
     }
 
     void trace(){
-        vy = 8;
+        vy = cy;
         while(true){
             vy--;
             if(check_virtual_collision()){
