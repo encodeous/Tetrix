@@ -1,19 +1,6 @@
-// Use the MD_MAX72XX library to play Pong
-//
-// Play pong on just one matrix. Bat is controlled by 2
-// switches for left and right movement. Optionally use
-// a pot on analog input to set the speed.
-//
-
 #include <MD_MAX72xx.h>
 #include <SPI.h>
 
-// --------------------
-// MD_MAX72xx hardware definitions and object
-// Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may
-// need to be adapted
-//
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 2
 #define CLK_PIN   13  // or SCK
