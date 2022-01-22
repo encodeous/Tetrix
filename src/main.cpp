@@ -196,7 +196,7 @@ struct button{
                     if(push_func != nullptr) push_func();
                 }
             }else{
-                if(millis() - down_time < 30) return;
+                if(millis() - down_time < 50) return;
                 down_time = millis();
                 // pushed
                 if(!is_down){
@@ -223,8 +223,8 @@ struct board{
     bool filled[8][8];
     int cx = 2, cy = 8;
     int vy = 0;
+    int cleared = 0;
     piece cur;
-    int dms = 1000;
 
     void render_board(){
         for(int i = 0; i < 4; i++){
@@ -279,9 +279,9 @@ struct board{
     bool accelerated = false;
 
     void tick(){
-        int lms = dms;
+        int lms = 10000 / (cleared + 10);
         if(accelerated){
-            lms = dms * 0.2;
+            lms *= 0.1;
         }
         if(millis() - last_tick > lms){
             last_tick = millis();
@@ -380,7 +380,6 @@ struct board{
 
     void end_game(){
         lost = true;
-        dms = 300;
         accelerated = false;
     }
 
@@ -408,7 +407,7 @@ struct board{
             row_cpy(i, lidx);
             if(!all_clear){
                 lidx++;
-            }
+            }else cleared++;
         }
         for(int i = lidx + 1; i < 8; i++){
             fill_row(i);
